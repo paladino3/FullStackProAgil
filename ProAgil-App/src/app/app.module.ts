@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'; // importar os FormsModule para buscas em filtro
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +18,8 @@ import { NavComponent } from './nav/nav.component';
    imports: [
       BrowserModule,
       AppRoutingModule,
-      HttpClientModule
+      HttpClientModule,
+      FormsModule// usei para fazer um filtro de buscas
    ],
    providers: [],
    bootstrap: [
