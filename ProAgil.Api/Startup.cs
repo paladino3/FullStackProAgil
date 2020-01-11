@@ -46,7 +46,8 @@ namespace ProAgil.Api
             }
 
             //app.UseHttpsRedirection();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); // faz uma conexao entre angular e .net
+            app.UseStaticFiles(); // uso de imagens
             app.UseMvc();
         }
     }
