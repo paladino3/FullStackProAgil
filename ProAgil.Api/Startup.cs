@@ -28,7 +28,7 @@ namespace ProAgil.Api
         {
             
             services.AddDbContext<ProAgilContext>(x=> x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddScoped<IProAgilRepository, ProAgilRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
         }
