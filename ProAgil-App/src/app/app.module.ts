@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms'; // importar os FormsModule para buscas em filtro
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // importar os FormsModule para buscas em filtro
 import { BsDropdownModule, ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -27,7 +27,8 @@ import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
       ModalModule.forRoot(),
       AppRoutingModule,
       HttpClientModule,
-      FormsModule// usei para fazer um filtro de buscas
+      FormsModule, // usei para fazer um filtro de buscas
+      ReactiveFormsModule
    ],
    providers: [
       EventoService
