@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { EventoService } from '../_services/Evento.service';
 import { Evento } from '../_models/Evento';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-eventos',
@@ -9,8 +11,22 @@ import { Evento } from '../_models/Evento';
 })
 export class EventosComponent implements OnInit {
 
+  eventosFiltrados: Evento[];
+  eventos: Evento[];
+  imagemLargura = 50;
+  imagemMargem = 2;
+  mostrarImagem = false;
+  modalRef: BsModalRef;
+  registerForm: FormGroup;
+
   // tslint:disable-next-line:variable-name
-  _filtroLista: string;
+  _filtroLista;
+
+  constructor(
+    private eventoService: EventoService,
+    private modalService: BsModalService
+    ) { }
+
   get filtroLista(): string {
     return this._filtroLista;
   }
@@ -18,15 +34,12 @@ export class EventosComponent implements OnInit {
     this._filtroLista = value;
     this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
   }
-  eventosFiltrados: Evento[];
-  eventos: Evento[];
-  imagemLargura = 50;
-  imagemMargem = 2;
-  mostrarImagem = false;
-
-  constructor(private eventoService: EventoService) {}
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
   ngOnInit() {
+    this.validation();
     this.getEventos();
   }
 
@@ -41,6 +54,23 @@ export class EventosComponent implements OnInit {
     this.mostrarImagem = !this.mostrarImagem;
   }
 
+  validation() {
+    this.registerForm = new FormGroup({
+      tema: new FormControl('',
+       [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      local: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      dataEvento: new FormControl('', Validators.required),
+      imagemUrl: new FormControl('', Validators.required),
+      qtdePessoas: new FormControl('',
+      [Validators.required, Validators.minLength(20), Validators.maxLength(5000)]),
+      telefone: new FormControl('', Validators.required),
+      email: new FormControl('',
+       [Validators.required, Validators.email])
+    });
+  }
+  salvarAlteracao() {
+
+  }
 
   getEventos() {
     this.eventoService.getAllEvento().subscribe(
