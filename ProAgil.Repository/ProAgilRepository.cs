@@ -31,6 +31,7 @@ namespace ProAgil.Repository {
         }
         //Get Evento
         public async Task<Evento[]> GetAllEventosAsync (bool includePalestrante = false) {
+
             IQueryable<Evento> query = _context.Eventos
             .Include(c => c.Lotes)
             .Include(c => c.RedeSociais);
@@ -43,7 +44,7 @@ namespace ProAgil.Repository {
             }
 
             query = query.AsNoTracking()
-                .OrderByDescending(c => c.DataEvento );
+                .OrderBy(c => c.Id );
 
             return await query.ToArrayAsync();
         }
@@ -61,7 +62,7 @@ namespace ProAgil.Repository {
             }
 
             query = query.AsNoTracking()
-                .OrderByDescending(c => c.DataEvento )
+                .OrderByDescending(c => c.Tema )
                 .Where(c => c.Tema.ToLower().Contains(tema.ToLower()));
 
             return await query.ToArrayAsync();
@@ -81,7 +82,7 @@ namespace ProAgil.Repository {
             }
 
             query = query.AsNoTracking()
-                .OrderByDescending(c => c.DataEvento )
+                .OrderBy(c => c.Id )
                 .Where(c => c.Id == EventoId);
 
             return await query.FirstOrDefaultAsync();

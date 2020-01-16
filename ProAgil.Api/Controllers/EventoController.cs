@@ -25,7 +25,7 @@ namespace ProAgil.Api.Controllers {
             try {
                 var eventos = await _repo.GetAllEventosAsync (true);
 
-                var results = _mapper.Map<IEnumerable<EventoDto>>(eventos);
+                var results = _mapper.Map<EventoDto[]>(eventos);
 
                 return Ok (results);
 
@@ -54,7 +54,10 @@ namespace ProAgil.Api.Controllers {
         public async Task<IActionResult> Get (string tema) {
 
             try {
-                var results = await _repo.GetAllEventosAsyncByTema (tema, true);
+                var eventos = await _repo.GetAllEventosAsyncByTema (tema, true);
+
+                var results = _mapper.Map<EventoDto[]>(eventos);
+                
                 return Ok (results);
             } catch (System.Exception) {
                 return this.StatusCode (StatusCodes.Status500InternalServerError, "Nao foi possivel conectar-se ao banco de dados... Tente novamente mais tarde!");
@@ -63,17 +66,20 @@ namespace ProAgil.Api.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post (Evento model) {
+        public async Task<IActionResult> Post (EventoDto model) {
 
             try {
-                _repo.Add (model);
+                var evento = _mapper.Map<Evento>(model);
 
-                if (await _repo.SaveChangesAsync ()) {
+                _repo.Add (evento);
+
+                if (await _repo.SaveChangesAsync ())
+                {
                     return Created ($"/api/evento/{model.Id}", model);
                 }
 
-            } catch (System.Exception) {
-                return this.StatusCode (StatusCodes.Status500InternalServerError, "Nao foi possivel conectar-se ao banco de dados... Tente novamente mais tarde!");
+            } catch (System.Exception ex) {
+                return this.StatusCode (StatusCodes.Status500InternalServerError, $"Nao foi possivel conectar-se ao banco de dados...Tente novamente mais tarde! {ex.Message}");
             }
             return BadRequest ();
         }
