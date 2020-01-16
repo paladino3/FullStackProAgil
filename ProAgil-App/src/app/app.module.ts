@@ -14,6 +14,7 @@ import { NavComponent } from './nav/nav.component';
 
 import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { setTheme } from 'ngx-bootstrap/utils';
 
 @NgModule({
    declarations: [
@@ -32,7 +33,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       AppRoutingModule,
       HttpClientModule,
       FormsModule, // usei para fazer um filtro de buscas
-      ReactiveFormsModule, BrowserAnimationsModule
+      ReactiveFormsModule,
+      BrowserAnimationsModule,
+      // os itens abaixo são do NGX bootstrap, instalei no terminal e realizei as importações acimabundleRenderer.renderToStream
+      // ver mais no site: https://valor-software.com/ngx-bootstrap
    ],
    providers: [
       EventoService

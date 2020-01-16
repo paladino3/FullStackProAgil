@@ -85,7 +85,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
 <div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Novo evento</h4>
       <button type="button" class="close pull-right" (click)="templete.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -130,7 +130,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
           <div class="form-group col-md-4">
             <label>Data e Hora</label>
             <input type="date" class="form-control"
-            
+            bsDatepicker
             [ngClass]="{'is-invalid': registerForm.get('dataEvento').errors && registerForm.get('dataEvento').touched}"
             formControlName="dataEvento" placeholder="">
             <div *ngIf="registerForm.get('dataEvento').hasError('required') && registerForm.get('dataEvento').touched"

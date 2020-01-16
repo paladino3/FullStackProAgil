@@ -6,13 +6,16 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { defineLocale, BsLocaleService, ptBrLocale } from 'ngx-bootstrap';
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 import { templateJitUrl } from '@angular/compiler';
-defineLocale('', ptBrLocale);
+
+
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-eventos',
   templateUrl: './eventos.component.html',
   styleUrls: ['./eventos.component.css']
 })
+
 export class EventosComponent implements OnInit {
 
   eventosFiltrados: Evento[];
@@ -78,6 +81,7 @@ openModal(template: any) {
 }
 
 ngOnInit() {
+  this.eventos = [];
   this.validation();
   this.getEventos();
 }
@@ -139,7 +143,6 @@ getEventos() {
     (_eventos: Evento[]) => {
       this.eventos = _eventos;
       this.eventosFiltrados = this.eventos;
-      console.log(_eventos);
     }, error => {
       console.log(error);
     });
