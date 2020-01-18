@@ -62,7 +62,7 @@ namespace ProAgil.Repository {
             }
 
             query = query.AsNoTracking()
-                .OrderByDescending(c => c.Tema )
+                .OrderByDescending(c => c.DataEvento )
                 .Where(c => c.Tema.ToLower().Contains(tema.ToLower()));
 
             return await query.ToArrayAsync();
