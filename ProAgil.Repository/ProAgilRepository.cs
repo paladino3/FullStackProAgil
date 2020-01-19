@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProAgil.Domain;
+using ProAgil.Repository;
 
 namespace ProAgil.Repository {
     public class ProAgilRepository : IProAgilRepository {
