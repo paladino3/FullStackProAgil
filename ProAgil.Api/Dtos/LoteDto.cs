@@ -13,7 +13,7 @@ namespace ProAgil.Api.Dtos
         public string DataInicio { get; set; }
         public string DataFim { get; set; }
 
-        [Range(2, 120000)]
-        public int quantidade { get; set; }
+        [Range(2, 5000)]
+        public int Quantidade { get; set; }
     }
 }

@@ -15,9 +15,9 @@ namespace ProAgil.Api.Dtos
         [Required (ErrorMessage="O Tema deve ser Preeenchido")]
         public string Tema { get; set; }
         
-        [Range(2, 120000, ErrorMessage="Quatidade de Pessoas é entre 2 e 120000")]
-        public int QtdPessoas { get; set; }
-        public string ImagemURL { get; set; }
+        [Range(2, 5000, ErrorMessage="Quatidade de Pessoas é entre 2 e 5000")]
+        public int QtdePessoas { get; set; }
+        public string ImagemUrl { get; set; }
 
         [Phone]
         public string Telefone { get; set; }
@@ -25,7 +25,7 @@ namespace ProAgil.Api.Dtos
         [EmailAddress]
         public string Email { get; set; }
         public List<LoteDto> Lotes { get; set; }
-        public List<RedeSocialDto> RedesSociais { get; set; }
+        public List<RedeSocialDto> RedeSociais { get; set; }
         public List<PalestranteDto> Palestrantes { get; set; }
     }
 }
