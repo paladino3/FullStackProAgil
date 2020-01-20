@@ -17,38 +17,42 @@ import { EventosComponent } from './eventos/eventos.component';
 import { CommonModule } from '@angular/common';
 
 import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { PalestrantesComponent } from './palestrantes/palestrantes.component';
+import { ContatosComponent } from './contatos/contatos.component';
+import { TitulosComponent } from './_shared/titulos/titulos.component';
 
 @NgModule({
    declarations: [
-    AppComponent,
-    NavComponent,
-    EventosComponent,
-    DateTimeFormatPipePipe
+      AppComponent,
+      NavComponent,
+      EventosComponent,
+      DateTimeFormatPipePipe,
+      DashboardComponent,
+      PalestrantesComponent,
+      ContatosComponent,
+      TitulosComponent
    ],
    imports: [
-    BrowserModule,
-    BsDropdownModule.forRoot(),
-    BsDatepickerModule.forRoot(),
-    TooltipModule.forRoot(),
-    ModalModule.forRoot(),
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      preventDuplicates: true,
-      progressBar: true
-    }),
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    // required animations module
-
-   ],
-   providers: [
-      EventoService
-   ],
-   bootstrap: [
-      AppComponent
-   ]
-})
-export class AppModule { }
+      BrowserModule,
+      BsDropdownModule.forRoot(),
+      BsDatepickerModule.forRoot(),
+      TooltipModule.forRoot(),
+      ModalModule.forRoot(),
+      ToastrModule.forRoot({
+        timeOut: 1000
+      }),
+      BrowserAnimationsModule,
+      AppRoutingModule,
+      HttpClientModule,
+      FormsModule,
+      ReactiveFormsModule,
+     ],
+     providers: [
+        EventoService
+     ],
+     bootstrap: [
+        AppComponent
+     ]
+  })
+  export class AppModule { }

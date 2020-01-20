@@ -2,25 +2,41 @@
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#">ProAgil. Eventos</a>
+    <a class="navbar-brand" routerLink="dashboard">ProAgil</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Eventos <span class="sr-only">(atual)</span></a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="evento">Eventos <span class="sr-only">(atual)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Palestrantes</a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="palestrantes">Palestrantes</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contato</a>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="contatos">Contato</a>
         </li>
       </ul>
     </div>
-    
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown" dropdown>
+        <a dropdownToggle class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Wesley
+        </a>
+        <div *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">
+            Perfil
+          </a>
+          <div role="separator" class="divider"></div>
+          <a class="dropdown-item" href="#">
+            Sair
+          </a>
+        </div>
+      </li>
+    </ul>
   </div>
 </nav>
 

@@ -17,7 +17,7 @@ defineLocale('pt-br', ptBrLocale);
 export class EventosComponent implements OnInit {
 
 
-  titulo = 'Eventos';
+  titles = 'ProAgil.Eventos';
 
   eventosFiltrados: Evento[];
   eventos: Evento[];
@@ -61,8 +61,7 @@ editarEvento(evento: Evento, template: any) {
   this.registerForm.patchValue(evento);
 }
 excluirEvento(evento: Evento, template: any)  {
-  this.toastr.success('Deletado com Sucesso');
-  //this.openModal(template);
+  this.openModal(template);
   this.evento = evento;
   this.bodyDeletarEvento = `Você tem certeza que deseja excluir o evento? Código ${evento.id},  Sobre: ${evento.tema}`;
 }
