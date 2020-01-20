@@ -1,139 +1,147 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProAgil.Api.Dtos;
 using ProAgil.Domain;
 using ProAgil.Repository;
 
 namespace ProAgil.Api.Controllers
 {
+  
     [Route("api/[controller]")]
     [ApiController]
     public class EventoController : ControllerBase
     {
         private readonly IProAgilRepository _repo;
+        private readonly IMapper _mapper;
 
-        public EventoController(IProAgilRepository repo)
+        public EventoController(IProAgilRepository repo, IMapper mapper)
         {
+            _mapper = mapper;
             _repo = repo;
         }
 
-         [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
-
             try
             {
-                var results = await _repo.GetAllEventosAsync(true);
+                var eventos = await _repo.GetAllEventosAsync(true);
+
+                var results = _mapper.Map<EventoDto[]>(eventos);
+
                 return Ok(results);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Nao foi possivel conectar-se ao banco de dados... Tente novamente mais tarde!");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco Dados Falhou {ex.Message}");
             }
-
         }
 
         [HttpGet("{EventoId}")]
         public async Task<IActionResult> Get(int EventoId)
         {
-
             try
             {
-                var results = await _repo.GetEventosAsyncById(EventoId, true);
+                var evento = await _repo.GetEventosAsyncById(EventoId, true);
+
+                var results = _mapper.Map<EventoDto>(evento);
+
                 return Ok(results);
             }
             catch (System.Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Nao foi possivel conectar-se ao banco de dados... Tente novamente mais tarde!");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
             }
-
         }
 
-        
         [HttpGet("getByTema/{tema}")]
         public async Task<IActionResult> Get(string tema)
         {
-
             try
             {
-                var results = await _repo.GetAllEventosAsyncByTema(tema, true);
+                var eventos = await _repo.GetAllEventosAsyncByTema(tema, true);
+
+                var results = _mapper.Map<EventoDto[]>(eventos);
+
                 return Ok(results);
             }
             catch (System.Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Nao foi possivel conectar-se ao banco de dados... Tente novamente mais tarde!");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
             }
-
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Evento model)
+        public async Task<IActionResult> Post(EventoDto model)
         {
-
             try
             {
-                _repo.Add(model);
+                var evento = _mapper.Map<Evento>(model);
 
-                if(await _repo.SaveChangesAsync())
+                _repo.Add(evento);
+
+                if (await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.Id}", model);
+                    return Created($"/api/evento/{model.Id}", _mapper.Map<EventoDto>(evento));
                 }
-                
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Nao foi possivel conectar-se ao banco de dados... Tente novamente mais tarde!");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"Banco Dados Falhou {ex.Message}");
             }
-                return BadRequest();
+
+            return BadRequest();
         }
 
-
         [HttpPut("{EventoId}")]
-        public async Task<IActionResult> Put(int EventoId, Evento model)
+        public async Task<IActionResult> Put(int EventoId, EventoDto model)
         {
             try
             {
                 var evento = await _repo.GetEventosAsyncById(EventoId, false);
-                
-                if(evento == null) return NotFound();
+                if (evento == null) return NotFound();
 
-                _repo.Update(model);
+                _mapper.Map(model, evento);
 
-                if(await _repo.SaveChangesAsync())
+                _repo.Update(evento);
+
+                if (await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.Id}", model);
+                    return Created($"/api/evento/{model.Id}", _mapper.Map<EventoDto>(evento));
                 }
-                
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Nao foi possivel conectar-se ao banco de dados... Tente novamente mais tarde!");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou " + ex.Message);
             }
-                return BadRequest();
+
+            return BadRequest();
         }
 
         [HttpDelete("{EventoId}")]
-        public async Task<IActionResult> Delete([FromRoute]int EventoId)
+        public async Task<IActionResult> Delete(int EventoId)
         {
             try
             {
                 var evento = await _repo.GetEventosAsyncById(EventoId, false);
-                
-                if(evento == null) return NotFound();
+                if (evento == null) return NotFound();
 
                 _repo.Delete(evento);
 
-                if(await _repo.SaveChangesAsync())
+                if (await _repo.SaveChangesAsync())
                 {
                     return Ok();
                 }
-                
             }
             catch (System.Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Nao foi possivel conectar-se ao banco de dados... Tente novamente mais tarde!");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
             }
-                return BadRequest();
+
+            return BadRequest();
         }
     }
 }
