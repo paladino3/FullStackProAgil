@@ -21,6 +21,16 @@ export class EventoService {
   getAllEventoById(id: number): Observable<Evento[]> {
     return this.http.get<Evento[]>(`${this.baseURL}/${id}`);
   }
+  postUpload(file: File, name: string) {
+    // tslint:disable-next-line:no-angle-bracket-type-assertion
+    const fileToUplaod = <File> file[0];
+    const formData = new FormData();
+    formData.append('file', fileToUplaod, name);
+
+    return this.http.post(`${this.baseURL}/upload`, formData);
+  }
+
+
   postEvento(evento: Evento) {
     return this.http.post(this.baseURL, evento);
   }
