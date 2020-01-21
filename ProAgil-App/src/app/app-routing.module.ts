@@ -4,10 +4,22 @@ import { EventosComponent } from './eventos/eventos.component';
 import { PalestrantesComponent } from './palestrantes/palestrantes.component';
 import { ContatosComponent } from './contatos/contatos.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserComponent } from './user/user.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegistrationComponent } from './user/registration/registration.component';
 
 // configuracoes de rotas, referenciado no app.module e importado os componentes
 
+
 const routes: Routes = [
+  {
+    path: 'user', component: UserComponent,
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'registration', component: RegistrationComponent }
+    ]
+  },
+
 
   {path: 'evento', component: EventosComponent},
   {path: 'palestrantes', component: PalestrantesComponent},

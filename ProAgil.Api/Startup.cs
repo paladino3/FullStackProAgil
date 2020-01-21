@@ -42,45 +42,48 @@ namespace ProAgil.Api
 
 
 
-            IdentityBuilder builder = services.AddIdentityCore<User>(options =>
+          IdentityBuilder builder = services.AddIdentityCore<User>(options => 
             {
-                options.Password.RequireDigit = false;
-                options.Password.RequireNonAlphanumeric =  false;
-                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false; 
+                options.Password.RequireNonAlphanumeric = false; 
+                options.Password.RequireLowercase = false; 
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 4;
-            });    
+            });
+
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             builder.AddEntityFrameworkStores<ProAgilContext>();
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//portador
-                .AddJwtBearer(options => {
-                    options.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => 
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-                            .GetBytes(Configuration.GetSection("AppSettings: Token").Value)), //descriptografar
-                        ValidateIssuer = false,
-                        ValidateAudience = false  
-                    };           
-                });    
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                                .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                            ValidateIssuer = false,
+                            ValidateAudience = false
+                        };
+                    }
+                );
 
                 // determina que vai ser chamado uma determinada controller
             services.AddMvc(options => {
-                var politica = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                    options.Filters.Add(new AuthorizeFilter(politica));    
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    options.Filters.Add(new AuthorizeFilter(policy));
                 })
-
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-            .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);//controla as redundancia ao retorno (Infinityloop)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling =
+                 Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddScoped<IProAgilRepository, ProAgilRepository>();
-            services.AddAutoMapper();
+            services.AddAutoMapper();            
             services.AddCors();
         }
 
@@ -93,19 +96,20 @@ namespace ProAgil.Api
             }
             else
             {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
+            }    
 
-            //app.UseHttpsRedirection();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); // faz uma conexao entre angular e .net
-            app.UseStaticFiles(); // uso de imagens
-             app.UseStaticFiles(new StaticFileOptions(){
+            app.UseAuthentication();
+             
+           // app.UseHttpsRedirection();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());            
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions(){
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
                 RequestPath = new PathString("/Resources")
             });
             app.UseMvc();
         }
     }
-
-   
 }
