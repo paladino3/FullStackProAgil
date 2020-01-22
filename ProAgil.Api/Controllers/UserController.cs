@@ -45,7 +45,7 @@ namespace ProAgil.Api.Controllers
         return Ok(new UserDto());
     }
 
-    [HttpPost("Registrar")]
+    [HttpPost("Register")]
     [AllowAnonymous]
     public async Task<IActionResult> Registrar(UserDto userDto)
     {
@@ -73,16 +73,16 @@ namespace ProAgil.Api.Controllers
 
     [HttpPost("Login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login(UserLoginDto userLogin)
+    public  Task<IActionResult> Login(UserLoginDto userLogin)
     {
         try
         {
-            var user = await _userManager.FindByNameAsync(userLogin.UserName);
-               var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);//verificar se o usuario tem o mesmo password
+            var user =  _userManager.FindByNameAsync(userLogin.UserName);
+               var result =  _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);//verificar se o usuario tem o mesmo password
 
             if (result.Succeeded)
             {
-                var appUser = await _userManager.Users
+                var appUser =  _userManager.Users
                     .FirstOrDefaultAsync(u => u.NormalizedUserName == userLogin.UserName.ToUpper());
 
                 var userToReturn = _mapper.Map<UserLoginDto>(appUser);
@@ -97,7 +97,7 @@ namespace ProAgil.Api.Controllers
         }
         catch (System.Exception ex)
         {
-            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco Dados Falhou {ex.Message}");
+            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco Dados Falhou 333333{ex.Message}");
         }
     }
     //metodo mais importante de validacao JWT
