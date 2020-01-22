@@ -22,6 +22,7 @@ import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
+import { AuthInterceptor } from './auth/auth_interceptor';
 
 
 @NgModule({
@@ -52,9 +53,12 @@ import { RegistrationComponent } from './user/registration/registration.componen
       ReactiveFormsModule,
      ],
      providers: [
-      EventoService
-
-
+      EventoService,
+      {
+         provide: HTTP_INTERCEPTORS,
+         useClass: AuthInterceptor,
+         multi: true
+      }
    ],
 
      bootstrap: [

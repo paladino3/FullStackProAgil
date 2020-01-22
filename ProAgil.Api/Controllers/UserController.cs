@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ProAgil.Api.Dtos;
@@ -40,6 +40,7 @@ namespace ProAgil.Api.Controllers
 
 
     [HttpGet("GetUser")]
+     
     public async Task<IActionResult> GetUser()
     {
         return Ok(new UserDto());
@@ -71,34 +72,54 @@ namespace ProAgil.Api.Controllers
     }
 
 
-    [HttpPost("Login")]
+  [HttpPost("Login")]
+
     [AllowAnonymous]
-    public  Task<IActionResult> Login(UserLoginDto userLogin)
+
+    public async Task<IActionResult> Login(UserLoginDto userLogin)
     {
         try
         {
-            var user =  _userManager.FindByNameAsync(userLogin.UserName);
-               var result =  _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);//verificar se o usuario tem o mesmo password
-
+            var user = await _userManager.FindByNameAsync(userLogin.UserName);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);
             if (result.Succeeded)
+
             {
-                var appUser =  _userManager.Users
+
+                var appUser = await _userManager.Users
+
                     .FirstOrDefaultAsync(u => u.NormalizedUserName == userLogin.UserName.ToUpper());
+
+
 
                 var userToReturn = _mapper.Map<UserLoginDto>(appUser);
 
+
+
                 return Ok(new {
+
                     token = GenerateJWToken(appUser).Result,
+
                     user = userToReturn
+
                 });
+
             }
 
+
+
             return Unauthorized();
+
         }
+
         catch (System.Exception ex)
+
         {
-            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco Dados Falhou 333333{ex.Message}");
+
+            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco Dados Falhou {ex.Message}");
+
         }
+
     }
     //metodo mais importante de validacao JWT
         private async Task<string> GenerateJWToken(User user)

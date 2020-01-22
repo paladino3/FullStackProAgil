@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
+import { AuthGuard } from './auth/auth.guard';
 
 // configuracoes de rotas, referenciado no app.module e importado os componentes
 
@@ -21,10 +22,10 @@ const routes: Routes = [
   },
 
 
-  {path: 'evento', component: EventosComponent},
-  {path: 'palestrantes', component: PalestrantesComponent},
-  {path: 'contatos', component: ContatosComponent},
-  {path: 'dashboard', component: DashboardComponent},
+  {path: 'evento', component: EventosComponent, canActivate: [AuthGuard]},
+  {path: 'palestrantes', component: PalestrantesComponent, canActivate: [AuthGuard]},
+  {path: 'contatos', component: ContatosComponent, canActivate: [AuthGuard]},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: '', redirectTo : 'dashboard', pathMatch: 'full'}, // vai para dash se nada por passado
   {path: '**', redirectTo: 'dashboard', pathMatch: 'full'} // vai para dash se algo invalido for passado
 ];

@@ -1,44 +1,64 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Evento } from '../_models/Evento';
 import { Observable } from 'rxjs';
+import { Evento } from '../_models/Evento';
 
 @Injectable({
+
   providedIn: 'root'
+
 })
 
 export class EventoService {
+
   baseURL = 'http://localhost:5000/api/evento';
+
 
   constructor(private http: HttpClient) { }
 
   getAllEvento(): Observable<Evento[]> {
+
     return this.http.get<Evento[]>(this.baseURL);
+
   }
-  getAllEventoByTema(tema: string): Observable<Evento[]> {
+  getEventoByTema(tema: string): Observable<Evento[]> {
+
     return this.http.get<Evento[]>(`${this.baseURL}/getByTema/${tema}`);
+
   }
-  getAllEventoById(id: number): Observable<Evento[]> {
-    return this.http.get<Evento[]>(`${this.baseURL}/${id}`);
+
+  getEventoById(id: number): Observable<Evento> {
+
+    return this.http.get<Evento>(`${this.baseURL}/${id}`);
+
   }
+
   postUpload(file: File, name: string) {
-    // tslint:disable-next-line:no-angle-bracket-type-assertion
-    const fileToUplaod = <File> file[0];
+
+    const fileToUplaod = <File>file[0];
+
     const formData = new FormData();
+
     formData.append('file', fileToUplaod, name);
-
     return this.http.post(`${this.baseURL}/upload`, formData);
-  }
 
+  }
 
   postEvento(evento: Evento) {
+
     return this.http.post(this.baseURL, evento);
-  }
-  putEvento(evento: Evento) {
-    return this.http.put(`${this.baseURL}/${evento.id}`, evento);
-  }
-  deleteEvento(id: number) {
-    return this.http.delete(`${this.baseURL}/${id}`);
+
   }
 
+  putEvento(evento: Evento) {
+
+    return this.http.put(`${this.baseURL}/${evento.id}`, evento);
+
+  }
+
+  deleteEvento(id: number) {
+
+    return this.http.delete(`${this.baseURL}/${id}`);
+
+  }
 }
