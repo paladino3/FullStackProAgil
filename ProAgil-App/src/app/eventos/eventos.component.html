@@ -11,9 +11,9 @@
     <button class="btn btn-outline-primary" (click)="novoEvento(templete)">
       <i class="fa fa-plus-circle"></i>&nbsp;
       Novo Evento
-      
+
     </button>
-    
+
   </div>
 </div>
 <h3>Filtro Por Tema: {{filtroLista}}</h3>
@@ -52,7 +52,7 @@
         <div *ngIf="!evento.lotes.length">
           Não Informado.
         </div>
-        
+
         <div *ngIf="evento.lotes.length">
           {{evento.lotes[0].nome | uppercase}}
         </div>
@@ -62,12 +62,18 @@
           <button class="btn btn-sm btn-success"
           tooltip="Editar" (click)="editarEvento(evento, templete)">
           <i class=" fa fa-edit"></i>
-        </button>  
+        </button>
         <button class="btn btn-sm btn-danger"
           tooltip="Excluir" (click)="excluirEvento(evento, confirm)">
           <i class=" fa fa-eraser"></i>
-        </button>   
-      </div>  
+        </button>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-sm btn-warning"
+        tooltip="Edição Detalhada" [routerLink]="['/evento', evento.id, 'edit']">
+        <i class=" fa fa-eraser"></i>
+      </button>
+    </div>
     </td>
   </tr>
 </tbody>
@@ -91,7 +97,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    
+
     <!--Corpo do Modal-->
     <div class="modal-body">
       <form [formGroup]="registerForm">
@@ -111,7 +117,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
               Tema deve ter no máximo 50 caracteres.
             </div>
           </div>
-        </div>  
+        </div>
         <div class="form-row">
           <div class="form-group col-md-8">
             <label>Local</label>
@@ -139,7 +145,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
             Data e hora é obrigatório.
           </div>
         </div>
-      </div>  
+      </div>
       <div class="form-row">
         <div class="form-group col-md-3">
           <label>Qtde Pessoas</label>
@@ -150,7 +156,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
           class="invalid-feedback">
           A quantidade é obrigatório.
         </div>
-        <div *ngIf="registerForm.get('qtdePessoas').hasError('max') && registerForm.get('qtdePessoas').touched" 
+        <div *ngIf="registerForm.get('qtdePessoas').hasError('max') && registerForm.get('qtdePessoas').touched"
         class="invalid-feedback">
         A quantidade deve ser menor que 5000 pessoas.
       </div>
@@ -163,7 +169,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
             <button class="btn btn-success" (click)="file.click()">
               Enviar Imagem
             </button>
-            <input type="file" #file [ngClass]="{'is-invalid': registerForm.get('imagemUrl').errors 
+            <input type="file" #file [ngClass]="{'is-invalid': registerForm.get('imagemUrl').errors
               && registerForm.get('imagemUrl').touched}" (change)="onFileChange($event)"
               class="form-control is-invalid" formControlName="imagemUrl" placeholder=""
               style="display: none">
@@ -175,7 +181,7 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
       A imagem é obrigatório.
     </div>
   </div>
-</div>  
+</div>
 <div class="form-row">
   <div class="form-group col-md-4">
     <label>Telefone</label>
@@ -201,7 +207,7 @@ class="invalid-feedback">
 Email deve ser válido.
 </div>
 </div>
-</div> 
+</div>
 </form>
 <!--Corpo do Modal-->
 </div>
@@ -232,8 +238,8 @@ Email deve ser válido.
     		</div>
     		<div class="modal-body">
       			<p>{{bodyDeletarEvento}}</p>
-    		</div>    
-    		<div class="modal-footer btn-group d-flex">      
+    		</div>
+    		<div class="modal-footer btn-group d-flex">
       			<button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
         			CENCELAR
       			</button>

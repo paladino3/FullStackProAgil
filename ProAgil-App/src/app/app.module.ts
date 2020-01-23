@@ -23,6 +23,9 @@ import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { AuthInterceptor } from './auth/auth_interceptor';
+import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxMaskModule } from 'ngx-mask';
 
 
 @NgModule({
@@ -37,7 +40,8 @@ import { AuthInterceptor } from './auth/auth_interceptor';
       TitulosComponent,
       UserComponent,
       LoginComponent,
-      RegistrationComponent
+      RegistrationComponent,
+      EventoEditComponent
    ],
    imports: [
       BrowserModule,
@@ -47,10 +51,13 @@ import { AuthInterceptor } from './auth/auth_interceptor';
       ModalModule.forRoot(),
       BrowserAnimationsModule,
       ToastrModule.forRoot({timeOut: 1000}),
+      TabsModule.forRoot(),
+      NgxMaskModule.forRoot(),
       AppRoutingModule,
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
+
      ],
      providers: [
       EventoService,

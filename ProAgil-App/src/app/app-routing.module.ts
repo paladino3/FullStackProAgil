@@ -8,6 +8,7 @@ import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { AuthGuard } from './auth/auth.guard';
+import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
 
 // configuracoes de rotas, referenciado no app.module e importado os componentes
 
@@ -22,7 +23,8 @@ const routes: Routes = [
   },
 
 
-  {path: 'evento', component: EventosComponent, canActivate: [AuthGuard]},
+  {path: 'evento/:id/edit', component: EventoEditComponent, canActivate: [AuthGuard]},
+  {path: 'eventos', component: EventosComponent, canActivate: [AuthGuard]},
   {path: 'palestrantes', component: PalestrantesComponent, canActivate: [AuthGuard]},
   {path: 'contatos', component: ContatosComponent, canActivate: [AuthGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
