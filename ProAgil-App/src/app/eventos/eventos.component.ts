@@ -17,7 +17,7 @@ defineLocale('pt-br', ptBrLocale);
 export class EventosComponent implements OnInit {
 
 
-  titles = 'ProAgil.Eventos';
+  titles = 'Eventos';
 
   eventosFiltrados: Evento[];
   eventos: Evento[];

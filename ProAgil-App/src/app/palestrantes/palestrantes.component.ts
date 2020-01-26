@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./palestrantes.component.css']
 })
 export class PalestrantesComponent implements OnInit {
-  titles = 'ProAgil.Palestrantes';
+  titles = 'Palestrantes';
   constructor() { }
 
   ngOnInit() {

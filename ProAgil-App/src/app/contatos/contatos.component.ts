@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContatosComponent implements OnInit {
 
-  titles = 'ProAgil.Contatos';
+  titles = 'Contatos';
 
   constructor() { }
 
